@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Userdata Application</title>
+    <!-- Include Bootstrap CSS (you can download it or use a CDN) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Welcome to UserData Application</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h2 class="mt-4">User Data</h2>
+
+        <form method="POST" class="mt-3">
+            {{ form.hidden_tag() }}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in user_data %}
+                        <tr>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Add button to toggle input fields -->
+            <button type="button" class="btn btn-success mt-3" id="addButton">Add</button>
+
+            <!-- Input fields (initially hidden) -->
+            <div class="form-group" id="inputFields" style="display: none;">
+                <label for="newName">New Name:</label>
+                <input type="text" class="form-control" id="newName">
+            </div>
+            <div class="form-group" id="inputEmail" style="display: none;">
+                <label for="newEmail">New Email:</label>
+                <input type="text" class="form-control" id="newEmail">
+            </div>
+
+
+        </form>
+
+        <a href="{{ url_for('logout') }}" class="mt-4 btn btn-danger">Logout</a>
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript to toggle the visibility of input fields
+        $(document).ready(function() {
+            $("#addButton").click(function() {
+                $("#inputFields").toggle();
+                $("#inputEmail").toggle();
+            });
+        });
+    </script>
+</body>
+</html>
