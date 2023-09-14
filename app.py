@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from forms.SignInForm import SigninForm
 from forms.SignUpForm import SignupForm
 from forms.DataForm import DataForm
-from orm.orm import sqlalchemy_instance as db
+from orm.data import sqlalchemy_instance as db
 from orm.user import User, UserData
 
 app = Flask(__name__)
