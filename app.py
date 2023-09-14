@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from user import SignupForm, SigninForm, DataForm
-from orm import db, User, UserData
+from forms.SignInForm import SigninForm
+from forms.SignUpForm import SignupForm
+from forms.DataForm import DataForm
+from orm.orm import sqlalchemy_instance as db
+from orm.user import User, UserData
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -48,12 +51,12 @@ def signin():
         if user and user.check_password(password):
             login_user(user)
             flash('Login successful!', 'success')
-            return redirect(url_for('postlogin'))
+            return redirect(url_for('PostLoginLanding'))
         flash('Invalid credentials. Please try again.', 'danger')
     return render_template('auth/signin.html', form=form)
 
 @app.route('/')
-def base():
+def PreLoginLanding():
     return render_template('base.html')
 
 @app.route('/logout')
@@ -61,12 +64,12 @@ def base():
 def logout():
     logout_user()
     flash('You have been logged out.', 'success')
-    return redirect(url_for('base'))
+    return redirect(url_for('PreLoginLanding'))
 
 
 @app.route('/postlogin', methods=['GET', 'POST'])
 @login_required
-def postlogin():
+def PostLoginLanding():
     form = DataForm(request.form)
 
     if request.method == 'POST' and form.validate():
