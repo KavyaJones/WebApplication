@@ -3,8 +3,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from forms.SignInForm import SigninForm
 from forms.SignUpForm import SignupForm
 from forms.DataForm import DataForm
-from orm.data import sqlalchemy_instance as db
-from orm.user import User, UserData
+from orm.data import sqlalchemy_instance as db, UserData
+from orm.user import User
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -91,4 +91,6 @@ def PostLoginLanding():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True, port=3000)

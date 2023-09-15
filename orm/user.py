@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from data.orm import sqlalchemy_instance as db
+from orm.data import sqlalchemy_instance as db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,9 +21,4 @@ class User(db.Model):
     def is_authenticated(self):
         return True
 
-class UserData(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    name = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
-    user = db.relationship('User', back_populates='user_data')
+
